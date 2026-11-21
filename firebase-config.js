@@ -1,10 +1,10 @@
-/* Configuração pública do aplicativo Firebase, fornecida pelo console Firebase.
-   NÃO insira senha de administrador, chave de conta de serviço nem segredo neste arquivo.
-   As regras e os provedores de autenticação devem ser configurados no Firebase. */
+
 window.BIA_FIREBASE_CONFIG = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  appId: "",
-  messagingSenderId: ""
+  apiKey: "AIzaSyD_bNNvxvs5WJhAOlXMOwXSqhzXCeHShcE",
+  authDomain: "bia-moda-feminina.firebaseapp.com",
+  projectId: "bia-moda-feminina",
+  storageBucket: "bia-moda-feminina.firebasestorage.app",
+  messagingSenderId: "241455664524",
+  appId: "1:241455664524:web:7cdee81923881bbd061aa9",
+  measurementId: "G-J050XG047N"
 };
