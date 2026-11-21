@@ -1,5 +1,5 @@
 /* Cache apenas da interface pública; não guarda senhas, tokens nem dados pessoais. */
-const CACHE='bia-moda-feminina-v2.0.0';
+const CACHE='bia-moda-feminina-v4.3.0';
 const APP_SHELL=[
   './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
   './assets/logo-otimizada.webp','./assets/icon-192.png','./assets/icon-512.png',

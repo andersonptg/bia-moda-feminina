@@ -49,7 +49,7 @@
         <img class="bia-official-seal" src="./assets/selo-oficial-da-loja.png" width="16" height="16" alt="Selo da própria loja, não é verificação do Instagram">
         <svg class="bia-external-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M10 14 19 5M19 13v6H5V5h6"/></svg>
       </a>
-      <a class="bia-partners-jump" href="#parceiros">Parceiros <span aria-hidden="true">↓</span></a>
+      <button class="bia-partners-jump" id="bia-show-partners" type="button" aria-controls="parceiros" aria-expanded="false">Ver parceiros</button>
     </div>
 
     <main class="main-layout">
@@ -114,19 +114,45 @@
             <button class="soft-logout" data-action="logout" type="button">Sair da minha conta</button>
           </section>
 
-          <section id="next-screen" class="screen next-screen" hidden aria-labelledby="next-title">
-            <img class="next-logo" src="./assets/logo-otimizada.webp" width="160" height="160" alt="Bia Moda Feminina">
-            <span class="kicker">ACESSO CONFIRMADO</span>
-            <h2 id="next-title">Você chegou à<br><em>Bia Moda Feminina.</em></h2>
-            <p>Seu cadastro, o acesso e as confirmações já fazem parte desta primeira etapa. A vitrine e as próximas funções serão construídas na sequência.</p>
-            <div class="next-status"><span class="status-dot"></span> Primeira etapa pronta</div>
-            <button class="soft-logout" data-action="logout" type="button">Sair da minha conta</button>
-          </section>
+          <section id="next-screen" class="screen next-screen bia-home" hidden aria-labelledby="next-title">
+  <div class="bia-home-hero">
+    <img class="next-logo" src="./assets/logo-otimizada.webp"
+      width="130" height="130" alt="Bia Moda Feminina">
+    <p class="kicker">SEU ESTILO COMEÇA AQUI</p>
+    <h2 id="next-title">Bem-vinda à<br><em>Bia Moda Feminina</em></h2>
+    <p>Moda, beleza e personalidade em um espaço preparado com carinho para você.</p>
+  </div>
+
+  <div class="bia-home-intro">
+    <span class="bia-home-tag">NOSSA LOJA</span>
+    <h3>Descubra seu próximo look</h3>
+    <p>Estamos preparando nossa seleção de peças e novidades.
+       Em breve, você poderá conhecer tudo por aqui.</p>
+  </div>
+
+  <div class="bia-home-features" aria-label="Novidades da loja">
+    <article class="bia-home-feature">
+      <span aria-hidden="true">✦</span>
+      <h4>Novidades</h4>
+      <p>Novas peças e lançamentos serão apresentados aqui.</p>
+    </article>
+    <article class="bia-home-feature">
+      <span aria-hidden="true">♡</span>
+      <h4>Seu estilo</h4>
+      <p>Uma experiência pensada para valorizar sua personalidade.</p>
+    </article>
+  </div>
+
+  <p class="bia-home-signature">Com carinho, Beatriz ♡</p>
+  <button class="soft-logout" data-action="logout" type="button">
+    Sair da minha conta
+  </button>
+</section>
         </div>
       </section>
     </main>
-    <section id="parceiros" class="bia-partners" aria-labelledby="bia-partners-title">
-      <div class="bia-partners-content">
+    <section id="parceiros" class="bia-partners" aria-labelledby="bia-partners-title" hidden>
+      <div class="bia-partners-content"><button id="bia-close-partners" class="bia-close-partners" type="button">← Voltar à loja</button>
         <p class="bia-partners-eyebrow">QUEM CONSTRÓI ESTA EXPERIÊNCIA</p>
         <h2 id="bia-partners-title">Parceiros <em>&amp; criação</em></h2>
         <p class="bia-owner-note"><strong>Beatriz</strong> · Proprietária da Bia Moda Feminina</p>

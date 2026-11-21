@@ -74,3 +74,143 @@
 @media(max-width:410px){.bia-social-rail{gap:9px;padding-inline:9px}.bia-social-official{gap:5px}.bia-social-official strong{font-size:10px}.bia-social-official small{font-size:7px}.bia-partners-jump{padding-left:8px;font-size:10px}.bia-official-seal{width:13px;height:13px}.bia-external-icon{width:12px;height:12px}}
 @media(max-width:580px){.bia-partner-info{flex-direction:column;align-items:center;text-align:center}.bia-partner-copy{flex:auto}.bia-partners{padding-top:34px;padding-bottom:40px}}
 /* /BIA MODA V2 */
+
+
+/* BIA V4.1 - identidade rosa e roxa */
+:root {
+  --bia-pink: #f4b6c2;
+  --bia-rose: #e77baa;
+  --bia-purple: #a56ce2;
+}
+
+.bia-partners[hidden] {
+  display: none !important;
+}
+
+.bia-partners-jump {
+  background: transparent;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.bia-partners-jump:hover,
+.bia-partners-jump:focus-visible {
+  color: var(--bia-pink);
+}
+
+.welcome-mini-logo img {
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px rgba(165,108,226,.45),
+    0 0 22px rgba(165,108,226,.24),
+    0 0 35px rgba(231,123,170,.13);
+}
+
+.welcome h2 em,
+.next-screen h2 em {
+  color: var(--bia-pink);
+}
+
+.beatriz-quote {
+  border-color: rgba(165,108,226,.55);
+  box-shadow:
+    0 8px 35px rgba(0,0,0,.2),
+    0 0 24px rgba(165,108,226,.09);
+}
+
+.beatriz-quote .quote-icon {
+  color: var(--bia-purple);
+}
+
+.beatriz-quote .signature strong {
+  color: var(--bia-pink);
+}
+
+.bia-close-partners {
+  display: block;
+  margin: 0 0 22px;
+  padding: 10px 0;
+  background: transparent;
+  border: 0;
+  color: var(--bia-pink);
+  font: 600 13px inherit;
+  cursor: pointer;
+}
+
+.bia-close-partners:focus-visible,
+.bia-partners-jump:focus-visible {
+  outline: 2px solid var(--bia-purple);
+  outline-offset: 4px;
+}
+
+
+/* BIA V4.3 - Home */
+.welcome .consent-panel[hidden],
+.bia-home[hidden] {
+  display: none !important;
+}
+.bia-home {
+  width: 100%;
+  text-align: center;
+}
+.bia-home-hero {
+  padding: 20px 8px 28px;
+}
+.bia-home-hero .next-logo {
+  border-radius: 50%;
+  box-shadow: 0 0 28px rgba(165,108,226,.28);
+}
+.bia-home-hero h2 em {
+  color: #f4b6c2;
+}
+.bia-home-intro {
+  margin: 22px 0;
+  padding: 22px 16px;
+  border: 1px solid rgba(244,182,194,.25);
+  border-radius: 18px;
+  background: rgba(165,108,226,.07);
+}
+.bia-home-tag {
+  color: #f4b6c2;
+  font-size: 11px;
+  letter-spacing: .18em;
+}
+.bia-home-intro h3 {
+  margin: 12px 0;
+}
+.bia-home-features {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 12px;
+  margin: 18px 0 26px;
+}
+.bia-home-feature {
+  padding: 18px 12px;
+  border: 1px solid rgba(165,108,226,.35);
+  border-radius: 16px;
+  background: rgba(255,255,255,.025);
+}
+.bia-home-feature > span {
+  color: #f4b6c2;
+  font-size: 25px;
+}
+.bia-home-feature h4 {
+  margin: 10px 0;
+  color: #f4b6c2;
+}
+.bia-home-feature p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.bia-home-signature {
+  color: #f4b6c2;
+  font-style: italic;
+}
+@media(max-width:390px) {
+  .bia-home-features {
+    grid-template-columns: 1fr;
+  }
+}

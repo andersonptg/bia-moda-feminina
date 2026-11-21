@@ -107,7 +107,8 @@ function readableError(error){
     'auth/account-exists-with-different-credential':'Esse e-mail já está ligado a outro método. Entre com seu método original.',
     'auth/unauthorized-domain':'Este domínio ainda precisa ser autorizado no Firebase.',
     'auth/network-request-failed':'Não foi possível conectar. Verifique sua internet.',
-    'permission-denied':'Não foi possível registrar a confirmação. Revise as regras do banco de dados.',
+    'permission-denied':'Não foi possível salvar a confirmação. Verifique as permissões do Firestore.',
+    'consent/version-mismatch':'Sua confirmação anterior precisa ser revisada. Entre em contato com o suporte.',
     'auth/operation-not-allowed':'Ative esse tipo de login nas configurações do Firebase.'
   };
   return messages[error?.code]||'Não foi possível concluir a operação. Tente novamente.';
@@ -133,9 +134,11 @@ forms.signup.addEventListener('submit',async event=>{
     await backend.register(name,email,password);
     $('#signup-password').value='';$('#signup-confirm').value='';
     try{sessionStorage.setItem('bia_recent_registration',email);}catch(_){/* bloqueio de armazenamento privado */}
-    toast('Cadastro realizado com sucesso! Você será direcionada ao login.','success',2900);
-    // Reinicia a página, como no fluxo VITRYS, exigindo um novo acesso.
-    setTimeout(()=>{window.location.replace(window.location.pathname+window.location.search);},2300);
+    $('#login-email').value=email;
+registering=false;
+busyState(false,btn);
+showView('login');
+toast('Cadastro realizado com sucesso! Entre com seu e-mail e senha.','success',5000);
   }catch(error){registering=false;toast(readableError(error),'error');}
   finally{busyState(false,btn);}
 });
@@ -144,7 +147,10 @@ forms.forgot.addEventListener('submit',async event=>{
   const email=$('#forgot-email').value.trim();if(!emailValid(email)){toast('Informe um e-mail válido.','error');return;}
   if(!backend){toast('A recuperação será liberada após configurar o Firebase.','notice');return;}
   const btn=$('#forgot-submit');busyState(true,btn);
-  try{await backend.resetPassword(email);toast('Se o e-mail estiver cadastrado, as instruções de recuperação serão enviadas.','success',6300);$('#login-email').value=email;setTimeout(()=>showView('login'),950);}
+  try{await backend.resetPassword(email);toast('Se o e-mail estiver cadastrado, as instruções de recuperação serão enviadas.','success',6300);registering=false;
+busyState(false,btn);
+showView('login');
+toast('Cadastro realizado com sucesso! Entre com seu e-mail e senha.','success',5000);$('#login-email').value=email;setTimeout(()=>showView('login'),950);}
   catch(error){if(error.code==='auth/user-not-found'){toast('Se o e-mail estiver cadastrado, as instruções serão enviadas.');}else{toast(readableError(error),'error');}}
   finally{busyState(false,btn);}
 });
@@ -155,25 +161,66 @@ ui.google.addEventListener('click',async()=>{
   catch(error){toast(readableError(error),'error');}
   finally{busyState(false,ui.google);}
 });
-function updateContinue(){if(!busy)$('#continue-btn').disabled=!($('#check-privacy').checked&&$('#check-terms').checked)||!backend;}
+// BIA V4.3 - acesso
+let biaConsentVerified = false;
+function updateContinue(){
+  $('#continue-btn').disabled = busy ||
+    !backend || !biaConsentVerified ||
+    !$('#check-privacy').checked ||
+    !$('#check-terms').checked;
+}
 $('#check-privacy').addEventListener('change',updateContinue);
 $('#check-terms').addEventListener('change',updateContinue);
 async function signedIn(user){
   if(registering)return;
   currentUser=user;
+  biaConsentVerified=false;
+  $('#welcome-title').innerHTML='Seja muito<br><em>bem-vinda!</em>';
+  $('.welcome .kicker').textContent='UMA MENSAGEM ESPECIAL PARA VOCÊ';
+  $('.beatriz-quote p').textContent='Preparei este espaço com muito carinho para que você encontre peças que combinem com quem você é. Aqui, a moda é uma forma de expressar sua beleza, sua personalidade e sua confiança. Fique à vontade: sua próxima escolha especial pode estar a um clique de distância.';
+  $('.welcome .consent-panel').hidden=false;
+  $('#continue-btn').textContent='Continuar para a loja →';
   $('#welcome-greeting').textContent=user.displayName?`É uma alegria receber você, ${user.displayName.split(' ')[0]}!`:'É uma alegria receber você!';
   $('#check-privacy').checked=false;$('#check-terms').checked=false;updateContinue();
   showScreen('welcome');
   if(window.location.protocol!=='https:' && window.location.hostname!=='localhost'){
     $('#security-status').querySelector('span').textContent='A conexão HTTPS será necessária na publicação. Não utilize dados reais em conexões inseguras.';
   }
-  try{if(await backend.readConsent(user.uid)){$('#check-privacy').checked=true;$('#check-terms').checked=true;updateContinue();}}
-  catch(error){console.warn('Consentimento ainda não disponível:',error.code||'erro');}
+  // BIA V4.2 - boas-vindas
+  try{
+    const consentAccepted = await backend.readConsent(user.uid);
+    if(currentUser?.uid !== user.uid)return;
+
+    biaConsentVerified=true;
+    if(consentAccepted){
+      $('#check-privacy').checked=true;
+      $('#check-terms').checked=true;
+      updateContinue();
+
+      $('#welcome-title').innerHTML='Seu estilo, sua<br><em>história!</em>';
+      $('.welcome .kicker').textContent='QUE BOM TER VOCÊ DE VOLTA';
+      $('.beatriz-quote p').textContent=
+        'A beleza começa quando você se sente confiante para ser quem realmente é. Que hoje seja mais um dia para brilhar do seu jeito!';
+      $('.welcome .consent-panel').hidden=true;
+      $('#continue-btn').textContent='Entrar na loja →';
+    }else{
+      $('.welcome .consent-panel').hidden=false;
+      $('#continue-btn').textContent='Continuar para a loja →';
+    }
+  }catch(error){
+    console.warn('Não foi possível verificar as confirmações:',error.code||'erro');
+    toast('Não foi possível verificar sua conta. Tente entrar novamente.','error');
+    $('#continue-btn').disabled=true;
+  }
 }
 $('#continue-btn').addEventListener('click',async()=>{
   if(busy||!backend||!currentUser||!$('#check-privacy').checked||!$('#check-terms').checked)return;
   const btn=$('#continue-btn');busyState(true,btn);
-  try{await backend.acceptConsent(currentUser.uid);toast('Confirmações registradas. Seja bem-vinda!');showScreen('next');}
+  try{
+    await backend.acceptConsent(currentUser.uid);
+    toast('Tudo pronto! Seja bem-vinda!');
+    showScreen('next');
+  }
   catch(error){toast(readableError(error),'error');}
   finally{busyState(false,btn);}
 });
@@ -250,8 +297,8 @@ async function start(){
     }
   }else{
     ui.connection.classList.add('warn');
-    ui.connectionLabel.textContent='Prévia visual';
-    showNotice('Prévia visual: configure o Firebase para ativar cadastro, Google, recuperação de senha e login real.');
+    ui.connectionLabel.textContent='Conexão indisponível';
+showNotice('Não foi possível conectar à loja neste momento. Tente novamente mais tarde.');
   }
 
   for(const id of ['login-submit','signup-submit','forgot-submit','google-btn']){
@@ -266,5 +313,24 @@ async function start(){
   ui.splash.classList.add('is-done');
   setTimeout(()=>{ui.splash.hidden=true;},510);
 }
+
+// BIA V4.1 - parceiros em área exclusiva
+const partnersPanel = document.getElementById('parceiros');
+const partnersOpen = document.getElementById('bia-show-partners');
+const partnersClose = document.getElementById('bia-close-partners');
+
+partnersOpen.addEventListener('click', () => {
+  partnersPanel.hidden = false;
+  partnersOpen.setAttribute('aria-expanded', 'true');
+  partnersPanel.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+partnersClose.addEventListener('click', () => {
+  partnersPanel.hidden = true;
+  partnersOpen.setAttribute('aria-expanded', 'false');
+  window.scrollTo({top:0,behavior:'smooth'});
+  partnersOpen.focus();
+});
+
 start().catch(()=>{ui.app.hidden=false;ui.splash.hidden=true;showNotice('Não foi possível iniciar todas as funções. Atualize a página.');});
 })();

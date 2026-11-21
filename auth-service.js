@@ -46,9 +46,27 @@ export function createAuthService(config,onAuthChange){
       return !!(data?.privacyVersion===VERSION&&data?.termsVersion===VERSION&&data?.acceptedAt);
     },
     async acceptConsent(uid){
-      await setDoc(doc(db,'user_consents',uid),{
-        privacyVersion:VERSION,termsVersion:VERSION,acceptedAt:serverTimestamp()
-      },{merge:true});
+      if(!auth.currentUser || auth.currentUser.uid!==uid){
+        throw new Error('Sessão inválida');
+      }
+      const ref=doc(db,'user_consents',uid);
+      const existing=await getDoc(ref);
+      if(existing.exists()){
+        const data=existing.data();
+        if(data.privacyVersion===VERSION &&
+           data.termsVersion===VERSION &&
+           data.acceptedAt){
+          return;
+        }
+        const error=new Error('Consentimento anterior requer revisão.');
+        error.code='consent/version-mismatch';
+        throw error;
+      }
+      await setDoc(ref,{
+        privacyVersion:VERSION,
+        termsVersion:VERSION,
+        acceptedAt:serverTimestamp()
+      });
     }
   };
 }
