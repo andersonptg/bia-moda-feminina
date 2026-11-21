@@ -3,7 +3,7 @@
 const $=(s)=>document.querySelector(s);
 const $$=(s)=>[...document.querySelectorAll(s)];
 const ui={
-  app:$('#app'),splash:$('#splash'),pct:$('#loading-pct'),progress:$('#loading-track'),fill:$('#loading-fill'),loadingLabel:$('#loading-label'),
+  app:$('#app'),splash:$('#splash'),pct:$('#loading-pct'),progress:$('#loading-track'),fill:$('#loading-fill'),runner:$('#loading-runner'),loadingLabel:$('#loading-label'),
   auth:$('#auth-screen'),welcome:$('#welcome-screen'),next:$('#next-screen'),notice:$('#auth-notice'),toast:$('#toast'),
   google:$('#google-btn'),connection:$('#connection-state'),connectionLabel:$('#connection-label')
 };
@@ -13,7 +13,46 @@ const forms={login:$('#login-form'),signup:$('#signup-form'),forgot:$('#forgot-f
 const config=window.BIA_FIREBASE_CONFIG||{};
 const configured=['apiKey','authDomain','projectId','appId'].every(k=>typeof config[k]==='string' && config[k].trim() && !/PREENCHA|COLE_AQUI/i.test(config[k]));
 
-function progress(n,label){ui.pct.textContent=`${n}%`;ui.fill.style.width=`${n}%`;ui.progress.setAttribute('aria-valuenow',String(n));ui.loadingLabel.textContent=label;}
+function progress(n,label){
+  const safe=Math.max(0,Math.min(100,Math.round(n)));
+  ui.pct.textContent=`${safe}%`;
+  ui.fill.style.width=`${safe}%`;
+  ui.progress.setAttribute('aria-valuenow',String(safe));
+  ui.loadingLabel.textContent=label;
+  if(ui.runner){
+    const edge=safe===0?0:safe===100?100:safe;
+    ui.runner.style.left=`calc(${edge}% - 10px)`;
+    ui.runner.classList.toggle('is-moving',safe>0 && safe<100);
+  }
+}
+const splashStages=[
+  {until:14,label:'Aquecendo a vitrine'},
+  {until:28,label:'Iluminando a identidade visual'},
+  {until:44,label:'Organizando os detalhes da coleção'},
+  {until:62,label:'Preparando sua experiência'},
+  {until:79,label:'Ajustando a elegância da loja'},
+  {until:92,label:'Protegendo sua conta'},
+  {until:100,label:'Experiência pronta'}
+];
+function splashLabel(value){
+  return splashStages.find(stage=>value<=stage.until)?.label||'Experiência pronta';
+}
+function animateSplash(totalMs=10000){
+  const startTime=performance.now();
+  progress(0,splashLabel(0));
+  return new Promise(resolve=>{
+    const tick=(now)=>{
+      const elapsed=now-startTime;
+      const ratio=Math.min(elapsed/totalMs,1);
+      const eased=1-Math.pow(1-ratio,2.2);
+      const value=Math.round(eased*100);
+      progress(value,splashLabel(value));
+      if(ratio<1) requestAnimationFrame(tick);
+      else resolve();
+    };
+    requestAnimationFrame(tick);
+  });
+}
 function toast(message,type='success',ms=4200){
   clearTimeout(toastTimeout);
   $('#toast-icon').textContent=type==='error'?'!':type==='notice'?'i':'✓';
@@ -156,33 +195,58 @@ $('#install-dialog').addEventListener('click',event=>{if(event.target.id==='inst
 $('#copyright-year').textContent=new Date().getFullYear();
 
 async function start(){
-  progress(20,'Carregando a identidade visual');
+  const splashTimer=animateSplash(10000);
   const logo=$('.splash-halo img');
-  await Promise.race([new Promise(resolve=>{if(logo.complete)return resolve();logo.addEventListener('load',resolve,{once:true});logo.addEventListener('error',resolve,{once:true});}),new Promise(resolve=>setTimeout(resolve,1800))]);
-  progress(48,'Preparando o ambiente');
+  await Promise.race([
+    new Promise(resolve=>{
+      if(logo.complete)return resolve();
+      logo.addEventListener('load',resolve,{once:true});
+      logo.addEventListener('error',resolve,{once:true});
+    }),
+    new Promise(resolve=>setTimeout(resolve,1800))
+  ]);
+
   if('serviceWorker' in navigator && location.protocol!=='file:'){
     navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
   }
-  progress(72,'Verificando a proteção da conta');
-  let recent=null;try{recent=sessionStorage.getItem('bia_recent_registration');if(recent)sessionStorage.removeItem('bia_recent_registration');}catch(_){/* armazenamento indisponível */}
+
+  let recent=null;
+  try{
+    recent=sessionStorage.getItem('bia_recent_registration');
+    if(recent)sessionStorage.removeItem('bia_recent_registration');
+  }catch(_){}
   if(recent)$('#login-email').value=recent;
+
   if(configured){
     try{
       const module=await import('./auth-service.js');
       backend=module.createAuthService(config,user=>{
-        if(user){signedIn(user);}else if(!registering){currentUser=null;showView('login');}
+        if(user){signedIn(user);}
+        else if(!registering){currentUser=null;showView('login');}
       });
-      ui.connection.classList.add('ready');ui.connectionLabel.textContent='Conta protegida';
+      ui.connection.classList.add('ready');
+      ui.connectionLabel.textContent='Conta protegida';
       await Promise.race([backend.redirectResult,new Promise(resolve=>setTimeout(resolve,1100))]);
-    }catch(error){console.warn('Inicialização do Firebase indisponível:',error.code||error.message);showNotice('O serviço de contas ainda não está disponível. Confira a configuração Firebase e a conexão à internet.');ui.connection.classList.add('warn');ui.connectionLabel.textContent='Configuração pendente';}
+    }catch(error){
+      console.warn('Inicialização do Firebase indisponível:',error.code||error.message);
+      showNotice('O serviço de contas ainda não está disponível. Confira a configuração Firebase e a conexão à internet.');
+      ui.connection.classList.add('warn');
+      ui.connectionLabel.textContent='Configuração pendente';
+    }
   }else{
-    ui.connection.classList.add('warn');ui.connectionLabel.textContent='Prévia visual';
+    ui.connection.classList.add('warn');
+    ui.connectionLabel.textContent='Prévia visual';
     showNotice('Prévia visual: configure o Firebase para ativar cadastro, Google, recuperação de senha e login real.');
   }
-  for(const id of ['login-submit','signup-submit','forgot-submit','google-btn'])document.getElementById(id).disabled=!backend;
+
+  for(const id of ['login-submit','signup-submit','forgot-submit','google-btn']){
+    document.getElementById(id).disabled=!backend;
+  }
+
+  await splashTimer;
   progress(100,'Experiência pronta');
-  // curta permanência garante que a marca seja reconhecida, sem porcentagem inventada.
-  await new Promise(resolve=>setTimeout(resolve,280));
+  await new Promise(resolve=>setTimeout(resolve,420));
+
   ui.app.hidden=false;
   ui.splash.classList.add('is-done');
   setTimeout(()=>{ui.splash.hidden=true;},510);
