@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+node_modules/
+*.pem
+*.p12
+*service-account*.json
+*admin-sdk*.json
+*secrets*.json
+*.log
+.DS_Store
+Thumbs.db
