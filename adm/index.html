@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070608"><meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex,nofollow,noarchive"><title>BIA · Central Administrativa</title>
+  <link rel="icon" href="../assets/icon-192.png"><link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css?v=3.0.0">
+  <script defer src="../firebase-config.js"></script>
+  <script type="module" src="./admin.js?v=3.0.0"></script>
+</head>
+<body>
+<div id="gate" class="gate">
+  <div class="gate-card">
+    <img src="../assets/logo-otimizada.webp" width="148" height="148" alt="Bia Moda Feminina" class="gate-logo">
+    <span class="eyebrow">ACESSO RESTRITO</span><h1>Central <em>Administrativa</em></h1>
+    <p id="gate-description">Identifique-se para acessar a gestão da Bia Moda Feminina. O acesso depende das permissões concedidas pela proprietária.</p>
+    <div id="gate-status" class="gate-status" role="status">Verificando autorização…</div>
+    <form id="gate-form" hidden>
+      <label>E-mail corporativo<input id="gate-email" type="email" autocomplete="username" required placeholder="E-mail da conta autorizada"></label>
+      <label>Senha<input id="gate-password" type="password" autocomplete="current-password" required placeholder="Sua senha"></label>
+      <button type="submit" class="btn primary full">Entrar no painel <span>→</span></button>
+    </form>
+    <a class="back-shop" href="../">← Voltar à loja</a>
+  </div>
+</div>
+<div id="admin-shell" class="app-shell" hidden>
+  <aside id="sidebar" class="sidebar" aria-label="Menu administrativo">
+    <a class="brand" href="../" aria-label="Voltar para a loja"><img src="../assets/logo-otimizada.webp" alt="Bia Moda Feminina" width="53" height="53"><span><strong>BIA MODA</strong><small>GESTÃO PREMIUM</small></span></a>
+    <div class="account"><span class="account-avatar">B</span><div><strong id="account-name">Equipe administrativa</strong><small id="account-role">Autorizado</small></div><i class="signal"></i></div>
+    <div class="nav-label">CENTRAL DE CONTROLE</div>
+    <nav id="side-nav" class="side-nav" aria-label="Áreas principais"></nav>
+    <div class="sidebar-bottom"><div class="uptime"><i class="signal"></i><span>Ambiente de gestão</span></div><button id="signout" class="logout"><span data-icon="log-out"></span> Sair da conta</button></div>
+  </aside>
+  <div class="work-area">
+    <header class="topbar">
+      <div class="topbar-leading"><button id="menu-open" class="icon-button menu-toggle" aria-label="Abrir menu"><span data-icon="menu"></span></button><div class="breadcrumb"><button id="back-btn" class="icon-button" aria-label="Voltar para a tela anterior" disabled><span data-icon="arrow-left"></span></button><div><small id="breadcrumb">CENTRAL / INÍCIO</small><strong id="top-title">Visão geral</strong></div></div></div>
+      <div class="header-actions"><div class="status-pill"><i class="signal"></i><span id="live-status">Aguardando dados</span></div><a class="icon-button visit-link" href="../" target="_blank" rel="noopener" title="Abrir loja"><span data-icon="external-link"></span></a><div class="header-avatar">B</div></div>
+    </header>
+    <main id="screen-host" class="screen-host" tabindex="-1" aria-label="Conteúdo do painel"></main>
+    <footer class="main-footer"><span>© Bia Moda Feminina · Painel administrativo V3</span><span>Beatriz: proprietária · Anderson: desenvolvimento técnico</span></footer>
+  </div>
+  <nav id="bottom-nav" class="bottom-nav" aria-label="Acesso rápido"></nav>
+</div>
+<div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+<div id="preview-banner" class="preview-banner" hidden>PRÉVIA VISUAL · Sem acesso a dados reais · Operações desativadas</div>
+</body></html>
