@@ -32,3 +32,45 @@
 @media(max-width:390px){.topbar{padding:0 13px}.brand-lockup{gap:6px}.brand-lockup strong{font-size:12px}.brand-lockup small{font-size:6px}.install-btn{padding:10px;gap:5px}.install-btn span{font-size:10px}.journey{padding:26px 17px 45px}.title-block h2{font-size:34px}.beatriz-quote{padding:22px 19px}}
 @media(min-height:950px) and (max-width:780px){.journey{align-content:center}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+
+/* BIA MODA V2 — instagram, parceiros, preto integral, ícones e salto */
+.site,.topbar,.journey,.footer,.editorial{background:#000!important}
+.bia-social-rail{display:flex;align-items:center;justify-content:center;gap:20px;min-height:54px;padding:7px 18px;background:#000;border-bottom:1px solid rgba(246,203,207,.13)}
+.bia-social-official{display:inline-flex;align-items:center;gap:8px;text-decoration:none;min-width:0;color:#ffd9e1;transition:opacity .18s ease}
+.bia-social-official:hover,.bia-social-official:focus-visible{opacity:.8}
+.bia-social-official>span{display:flex;flex-direction:column;gap:1px;min-width:0}
+.bia-social-official small{font-size:8px;font-weight:700;letter-spacing:.14em;color:#cf9aa5}
+.bia-social-official strong{font-size:12px;font-weight:700;white-space:nowrap;letter-spacing:.01em}
+.bia-instagram-icon{width:26px;height:26px;object-fit:contain;flex-shrink:0}
+.bia-official-seal{width:16px;height:16px;object-fit:contain;flex-shrink:0}
+.bia-external-icon,.bia-partner-social svg{width:16px;height:16px;flex-shrink:0;fill:none;stroke:#edb2bb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bia-partners-jump{font-size:10px;font-weight:600;white-space:nowrap;color:#deb3ba;text-decoration:none;border-left:1px solid #51343f;padding-left:16px}
+.bia-partners-jump:hover{text-decoration:underline;text-underline-offset:4px}
+.bia-partners{scroll-margin-top:15px;background:#000;border-top:1px solid #32242c;padding:39px 22px 42px}
+.bia-partners-content{width:min(850px,100%);margin:auto;text-align:center}
+.bia-partners-eyebrow{font-size:9px;letter-spacing:.21em;color:#af8491;margin:0 0 9px}
+.bia-partners h2{font:500 clamp(26px,5vw,34px) 'Playfair Display',Georgia,serif;margin:0 0 13px;color:#f9e0e1}
+.bia-partners h2 em{font-weight:400;color:#e8a9bf}
+.bia-owner-note{margin:0 0 28px;font-size:11px;color:#c9acb4}
+.bia-owner-note strong{color:#f1c4c7}
+.bia-partner-info{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;border-top:1px solid rgba(244,187,200,.2);padding:22px 0 0;text-align:left}
+.bia-partner-copy{display:grid;gap:5px;flex:1 1 250px}
+.bia-partner-copy strong{font-size:17px;color:#fce7e9}
+.bia-partner-copy>span{font-size:12px;color:#efb7c5;font-weight:600}
+.bia-partner-copy p{margin:0;font-size:11px;line-height:1.7;color:#bba4b0}
+.bia-partner-social{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;text-decoration:none;color:#ffbdd9;text-shadow:0 0 11px rgba(255,68,168,.52);white-space:nowrap}
+.bia-partner-social:hover{text-decoration:underline;text-underline-offset:4px;color:#fff3f5}
+.bia-partner-social img{width:26px;height:26px}
+.toggle-password{width:38px;height:38px;flex-shrink:0}
+.toggle-password img{width:23px;height:23px;object-fit:contain;opacity:.96}
+.toggle-password:hover img{filter:drop-shadow(0 0 5px #e8bccd)}
+.splash{background:#000!important}
+.splash-bottom{width:min(268px,calc(100vw - 88px));left:50%;transform:translateX(-50%);bottom:max(62px,calc(env(safe-area-inset-bottom) + 36px))}
+.progress-track{height:7px;background:#21131b;border-color:#734454;box-shadow:0 0 10px rgba(227,105,151,.10)}
+.progress-track #loading-fill{background:linear-gradient(90deg,#ac5070,#ff91bf,#ffe1d2);box-shadow:0 0 10px rgba(255,95,162,.4)}
+.progress-runner{top:-33px;width:43px;height:43px;transform:translateX(-50%);filter:drop-shadow(0 0 8px rgba(237,169,193,.38))}
+.progress-runner img{width:100%;height:100%;object-fit:contain}
+@media(max-width:410px){.bia-social-rail{gap:9px;padding-inline:9px}.bia-social-official{gap:5px}.bia-social-official strong{font-size:10px}.bia-social-official small{font-size:7px}.bia-partners-jump{padding-left:8px;font-size:10px}.bia-official-seal{width:13px;height:13px}.bia-external-icon{width:12px;height:12px}}
+@media(max-width:580px){.bia-partner-info{flex-direction:column;align-items:center;text-align:center}.bia-partner-copy{flex:auto}.bia-partners{padding-top:34px;padding-bottom:40px}}
+/* /BIA MODA V2 */

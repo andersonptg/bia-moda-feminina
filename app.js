@@ -21,7 +21,7 @@ function progress(n,label){
   ui.loadingLabel.textContent=label;
   if(ui.runner){
     const edge=safe===0?0:safe===100?100:safe;
-    ui.runner.style.left=`calc(${edge}% - 10px)`;
+    ui.runner.style.left=`${8+edge*0.84}%`;
     ui.runner.classList.toggle('is-moving',safe>0 && safe<100);
   }
 }
@@ -73,7 +73,7 @@ function showView(view){if(busy)return;currentView=view;hideNotice();for(const v
 $$('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
 $$('.toggle-password').forEach(b=>b.addEventListener('click',()=>{
   const input=document.getElementById(b.dataset.target);
-  input.type=input.type==='password'?'text':'password';b.setAttribute('aria-label',input.type==='password'?'Mostrar senha':'Ocultar senha');
+  input.type=input.type==='password'?'text':'password';b.setAttribute('aria-label',input.type==='password'?'Mostrar senha':'Ocultar senha');b.setAttribute('aria-pressed',String(input.type==='text'));const eye=b.querySelector('img');if(eye)eye.src=input.type==='password'?'./assets/olho-exibir-senha.png':'./assets/olho-ocultar-senha.png';
 }));
 function updateSteps(){
   $$('.signup-step').forEach((el,i)=>{el.hidden=i!==signupStep;});
@@ -182,8 +182,23 @@ $$('[data-action="logout"]').forEach(el=>el.addEventListener('click',async()=>{
   catch(error){toast(readableError(error),'error');}
 }));
 
-window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;});
-window.addEventListener('appinstalled',()=>{installPrompt=null;toast('Aplicativo instalado com sucesso!');});
+function isInstalledMode(){return window.matchMedia?.('(display-mode: standalone)').matches||navigator.standalone===true;}
+function hideInstallIfInstalled(){
+  let saved=false;try{saved=localStorage.getItem('bia_app_installed')==='1';}catch(_){}
+  $('#install-btn').hidden=Boolean(isInstalledMode()||saved);
+}
+window.addEventListener('beforeinstallprompt',event=>{
+  event.preventDefault();installPrompt=event;
+  // Se a instalação voltou a ser oferecida, permite mostrar botão novamente.
+  try{localStorage.removeItem('bia_app_installed')}catch(_){}
+  hideInstallIfInstalled();
+});
+window.addEventListener('appinstalled',()=>{
+  installPrompt=null;try{localStorage.setItem('bia_app_installed','1')}catch(_){}
+  hideInstallIfInstalled();toast('Aplicativo instalado com sucesso!');
+});
+window.addEventListener('pageshow',hideInstallIfInstalled);
+hideInstallIfInstalled();
 $('#install-btn').addEventListener('click',async()=>{
   if(installPrompt){const p=installPrompt;installPrompt=null;await p.prompt();return;}
   const ios=/iPad|iPhone|iPod/i.test(navigator.userAgent);

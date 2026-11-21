@@ -1,8 +1,10 @@
 /* Cache apenas da interface pública; não guarda senhas, tokens nem dados pessoais. */
-const CACHE='bia-moda-feminina-v1.0.0';
+const CACHE='bia-moda-feminina-v2.0.0';
 const APP_SHELL=[
   './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
   './assets/logo-otimizada.webp','./assets/icon-192.png','./assets/icon-512.png',
+  './assets/salto-cristal-transparente.png','./assets/instagram-neon-transparente.png','./assets/selo-oficial-da-loja.png',
+  './assets/olho-exibir-senha.png','./assets/olho-ocultar-senha.png',
   './privacidade.html','./termos.html','./seguranca.html'
 ];
 self.addEventListener('install',event=>{
