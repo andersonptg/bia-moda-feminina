@@ -123,30 +123,18 @@
     <p>Moda, beleza e personalidade em um espaço preparado com carinho para você.</p>
   </div>
 
-  <div class="bia-home-intro">
-    <span class="bia-home-tag">NOSSA LOJA</span>
-    <h3>Descubra seu próximo look</h3>
-    <p>Estamos preparando nossa seleção de peças e novidades.
-       Em breve, você poderá conhecer tudo por aqui.</p>
-  </div>
-
-  <div class="bia-home-features" aria-label="Novidades da loja">
-    <article class="bia-home-feature">
-      <span aria-hidden="true">✦</span>
-      <h4>Novidades</h4>
-      <p>Novas peças e lançamentos serão apresentados aqui.</p>
-    </article>
-    <article class="bia-home-feature">
-      <span aria-hidden="true">♡</span>
-      <h4>Seu estilo</h4>
-      <p>Uma experiência pensada para valorizar sua personalidade.</p>
-    </article>
-  </div>
-
-  <p class="bia-home-signature">Com carinho, Beatriz ♡</p>
-  <button class="soft-logout" data-action="logout" type="button">
-    Sair da minha conta
-  </button>
+  <div id="v5-banner" class="v5-banner" hidden></div>
+  <div id="v5-categories" class="v5-categories" hidden></div>
+  <div id="v5-products" class="v5-products"></div>
+  <div id="v5-panel" class="v5-panel" hidden></div>
+  <nav class="v5-bottom" aria-label="Navegação da loja">
+    <button type="button" data-v5-tab="loja" class="active">⌂<span>Loja</span></button>
+    <button type="button" data-v5-tab="carrinho">▣<span>Carrinho <b id="v5-cart-count">0</b></span></button>
+    <button type="button" data-v5-tab="perfil">♙<span>Perfil</span></button>
+    <a id="v5-admin-link" href="./adm/" hidden>⚙<span>ADM</span></a>
+  </nav>
+  <button id="v5-support" class="v5-support" type="button" title="Atendimento" aria-label="Abrir atendimento">🎧</button>
+  <script type="module" src="./loja-v5.js"></script>
 </section>
         </div>
       </section>

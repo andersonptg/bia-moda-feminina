@@ -1,11 +1,11 @@
 /* Cache apenas da interface pública; não guarda senhas, tokens nem dados pessoais. */
-const CACHE='bia-moda-feminina-v4.3.0';
+const CACHE='bia-moda-feminina-v5.0.0';
 const APP_SHELL=[
-  './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
+  './','./index.html','./styles.css','./app.js','./loja-v5.js','./adm/v5-admin.js','./manifest.webmanifest',
   './assets/logo-otimizada.webp','./assets/icon-192.png','./assets/icon-512.png',
   './assets/salto-cristal-transparente.png','./assets/instagram-neon-transparente.png','./assets/selo-oficial-da-loja.png',
   './assets/olho-exibir-senha.png','./assets/olho-ocultar-senha.png',
-  './privacidade.html','./termos.html','./seguranca.html'
+  './firebase-config.js','./auth-service.js'
 ];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()));
