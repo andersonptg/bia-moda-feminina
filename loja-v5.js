@@ -67,7 +67,7 @@ async function renderSupport(){
  }catch(e){console.warn('Suporte:',e.code||e.message);$('#v51-chat-feedback').textContent='Não foi possível carregar conversas anteriores.'}
  $('#v51-chat-form').onsubmit=async e=>{e.preventDefault();const field=$('#v5-message'),msg=field.value.trim(),button=e.target.querySelector('button');if(msg.length<2)return;button.disabled=true;try{
   if(!ticketId){const ref=await addDoc(collection(db,'support_tickets'),{clientName:user.displayName||'',clientEmail:user.email||'',clientUid:user.uid,subject:'Atendimento pelo site',description:msg,priority:'normal',status:'aberto',createdAt:serverTimestamp(),updatedAt:serverTimestamp()});ticketId=ref.id;}
-  else {await addDoc(collection(db,'support_tickets',ticketId,'messages'),{text:msg,authorUid:user.uid,authorName:user.displayName||'Cliente',kind:'client',createdAt:serverTimestamp()});await updateDoc(doc(db,'support_tickets',ticketId),{updatedAt:serverTimestamp()})}
+  else {await addDoc(collection(db,'support_tickets',ticketId,'messages'),{text:msg,authorUid:user.uid,authorName:user.displayName||'Cliente',kind:'client',createdAt:serverTimestamp()})}
   const bubble=document.createElement('div');bubble.className='v51-bubble client';bubble.textContent=msg;const box=$('#v51-messages');box.querySelector('.v51-chat-notice')?.remove();box.append(bubble);box.scrollTop=box.scrollHeight;field.value='';$('#v51-chat-feedback').textContent='Mensagem registrada.';
  }catch(err){$('#v51-chat-feedback').textContent='Não foi possível enviar: '+(err.code||'verifique sua conexão')}finally{button.disabled=false}}
 }
