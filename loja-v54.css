@@ -1,0 +1,20 @@
+/* BIA V5.4 — navegação confiável e rolagem natural, sem sobreposição */
+:root{--bia-nav-clearance:calc(112px + env(safe-area-inset-bottom, 0px))}
+html{scroll-padding-bottom:var(--bia-nav-clearance)}
+body:has(#next-screen:not([hidden])){overflow-x:hidden!important;overscroll-behavior-x:none;background:radial-gradient(ellipse at 50% 0%,#3a182d 0%,#160c17 48%,#0b090e 100%) fixed!important}
+/* Faixa social e cabeçalho pertencem ao documento: desaparecem naturalmente ao rolar. */
+body:has(#next-screen:not([hidden])) .bia-official-bar,
+body:has(#next-screen:not([hidden])) .v51-shop-header{position:relative!important;top:auto!important;bottom:auto!important;transform:none!important}
+body:has(#next-screen:not([hidden])) #next-screen{min-height:100dvh!important;padding-bottom:var(--bia-nav-clearance)!important;background:transparent!important;overflow:visible!important}
+body:has(#next-screen:not([hidden])) #v5-products,
+body:has(#next-screen:not([hidden])) #v5-panel{min-height:0!important;padding-bottom:16px!important}
+/* A barra do próprio site fica fixa; o Android mantém sua área de navegação separada. */
+body:has(#next-screen:not([hidden])) #next-screen .v5-bottom{position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;z-index:1000!important;width:100%!important;max-width:none!important;margin:0!important;transform:none!important;box-sizing:border-box!important;min-height:80px!important;padding:8px max(10px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))!important;display:flex!important;align-items:center!important;justify-content:space-evenly!important;gap:5px!important;border-radius:0!important;overflow:visible!important;background:linear-gradient(135deg,#35172b,#130d18)!important;box-shadow:0 -5px 22px #0009!important}
+body:has(#next-screen:not([hidden])) #next-screen .v5-bottom :is(button,a){display:flex!important;flex:1 1 0!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;min-width:0!important;min-height:64px!important;max-width:190px!important;padding:8px 3px!important;border-radius:14px!important;line-height:1.25!important;text-align:center!important;white-space:normal!important;font-size:clamp(11px,2.2vw,15px)!important}
+body:has(#next-screen:not([hidden])) #next-screen .v5-bottom .v51-icon{flex:none!important;width:29px!important;height:29px!important;background-size:contain!important}
+/* Atendimento flutuante: sempre acima do menu e afastado da borda. */
+body:has(#next-screen:not([hidden])) #next-screen .v5-support{position:fixed!important;top:auto!important;left:auto!important;right:clamp(14px,3vw,28px)!important;bottom:calc(105px + env(safe-area-inset-bottom,0px))!important;z-index:1010!important;transform:none!important;width:62px!important;height:62px!important;touch-action:manipulation!important}
+/* A seção de créditos só aparece quando solicitada; não invade a vitrine. */
+#parceiros[hidden]{display:none!important}
+#parceiros:not([hidden]){position:relative!important;z-index:1!important;padding-bottom:var(--bia-nav-clearance)!important}
+@media(max-height:650px){body:has(#next-screen:not([hidden])) #next-screen .v5-bottom{min-height:64px!important;padding-top:4px!important;padding-bottom:calc(5px + env(safe-area-inset-bottom,0px))!important}body:has(#next-screen:not([hidden])) #next-screen .v5-bottom :is(button,a){min-height:54px!important}body:has(#next-screen:not([hidden])) #next-screen .v5-support{bottom:calc(83px + env(safe-area-inset-bottom,0px))!important}}
