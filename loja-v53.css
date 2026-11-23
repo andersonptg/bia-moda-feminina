@@ -1,0 +1,18 @@
+/* BIA V5.3 - fundo rosado, menu fixo, tablet e areas seguras */
+:root{--bia-rose:#ed68a6;--bia-safe-bottom:env(safe-area-inset-bottom,0px)}
+body:has(#next-screen:not([hidden])){background:radial-gradient(ellipse 95% 55% at 50% 22%,#391724 0%,#160d16 52%,#09080d 100%) fixed!important}
+body:has(#next-screen:not([hidden])) #next-screen{background:transparent!important}
+#next-screen .v5-bottom{position:fixed!important;inset:auto 0 0!important;bottom:0!important;z-index:150!important;display:flex!important;align-items:stretch!important;justify-content:space-around!important;gap:clamp(3px,1vw,14px)!important;min-height:84px!important;padding:9px max(8px,env(safe-area-inset-left,0px)) calc(12px + var(--bia-safe-bottom)) max(8px,env(safe-area-inset-right,0px))!important;background:linear-gradient(120deg,#23131e,#100e16)!important;border-top:1px solid #8e4769!important;box-shadow:0 -8px 26px #0007!important;border-radius:0!important;overflow:visible!important}
+#next-screen .v5-bottom :is(button,a){flex:1 1 0!important;min-width:0!important;max-width:220px!important;min-height:62px!important;border-radius:16px!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:4px!important;padding:8px 4px!important;font-size:clamp(11px,2.6vw,15px)!important;white-space:normal!important;text-align:center!important}
+#next-screen .v5-bottom :is(button,a).active{background:linear-gradient(145deg,#8d345f,#432139)!important;box-shadow:inset 0 0 0 1px #ed83b5,0 0 15px #f3458238!important}
+#next-screen .v5-bottom .v51-icon{font-size:clamp(23px,4.3vw,32px)!important;line-height:1!important}
+#next-screen .v5-support{position:fixed!important;right:max(18px,env(safe-area-inset-right,0px))!important;bottom:calc(108px + var(--bia-safe-bottom))!important;width:62px!important;height:62px!important;border-radius:50%!important;z-index:160!important;display:grid!important;place-items:center!important;background:#240f21!important;border:2px solid #ff80bd!important;box-shadow:0 0 8px #ff4aa5,0 0 22px #f53897a0,inset 0 0 12px #ff4a9855!important;color:transparent!important;font-size:0!important}
+#next-screen .v5-support:before{content:'';display:block;width:38px;height:38px;background:url('/assets/bia-v53/suporte.svg') center/contain no-repeat!important}
+#next-screen .v5-support:focus-visible{outline:3px solid #fff!important;outline-offset:3px}
+#next-screen .v5-bottom [data-v5-tab='loja'] .v51-icon{font-size:0!important;background:url('/assets/bia-v53/inicio.svg') center/contain no-repeat;width:29px;height:29px}
+#next-screen .v5-bottom [data-v5-tab='carrinho'] .v51-icon{font-size:0!important;background:url('/assets/bia-v53/sacola.svg') center/contain no-repeat;width:29px;height:29px}
+#next-screen .v5-bottom [data-v5-tab='suporte'] .v51-icon{font-size:0!important;background:url('/assets/bia-v53/atendimento.svg') center/contain no-repeat;width:29px;height:29px}
+#next-screen .v5-bottom [data-v5-tab='adm'] .v51-icon{font-size:0!important;background:url('/assets/bia-v53/adm.svg') center/contain no-repeat;width:29px;height:29px}
+#next-screen .v5-products{padding-bottom:calc(125px + var(--bia-safe-bottom))!important}
+@media(min-width:800px){#next-screen .v5-bottom{padding-left:max(20px,calc((100vw - 1050px)/2))!important;padding-right:max(20px,calc((100vw - 1050px)/2))!important}}
+@media(max-width:390px){#next-screen .v5-bottom{gap:2px!important}#next-screen .v5-bottom :is(button,a){padding:7px 1px!important;font-size:11px!important}}
